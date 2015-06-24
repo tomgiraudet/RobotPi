@@ -14,7 +14,6 @@ import java.awt.Container;
 public class Remote {
 	
 	private DataOutputStream os;
-	private static RemoteClavier rc;
 	
 	public DataOutputStream getOs(){
 		return os;
