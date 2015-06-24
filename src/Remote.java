@@ -4,14 +4,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 
 
 
-public class Remote {
+public class Remote extends JPanel{
 	
 	// attributes
 	private DataOutputStream os;
@@ -25,7 +25,11 @@ public class Remote {
 
 	
 	// Constructor
-	public Remote(){}
+	public Remote(){
+		KeyListener listener = new RemoteClavierListener();
+		addKeyListener(listener);
+		setFocusable(true);
+	}
 	
 	
 	// Creation and connection of the Socket
@@ -40,7 +44,14 @@ public class Remote {
         }
 	}
 	
-	
+	// Initialization of the KeyboardListener
+	public void initKeyboardListerner(){
+		JFrame frame = new JFrame("RobotPi - Remote");
+		frame.add(this);
+		frame.setSize(200, 75);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 	// Initialization of the PrintWriter
 	public void initPrintWriter(){
 			try {
@@ -77,9 +88,11 @@ public class Remote {
     	Remote rem = new Remote();
     	rem.connectToServeur();
     	rem.initPrintWriter();
+    	rem.initKeyboardListerner();
+    	
     	
     	// sending message
-    	String test = "";
+    	/*String test = "";
     	test = "ledDroite";
     	rem.sendInfo(test);
     	Thread.sleep(2000);
@@ -95,6 +108,7 @@ public class Remote {
     	test = "azerty";
     	rem.sendInfo(test);
     	Thread.sleep(2000);
+    	*/
     	
    	
     	// ending
@@ -102,47 +116,23 @@ public class Remote {
     	
     	
     }
+    
+    public class RemoteClavierListener implements KeyListener {
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+	}
 }
 
 
 
 
-/*
-        // Sending data :
-    if (remote != null && os != null && is != null) {
-            try {  	
-                     	
-            JFrame frame = new JFrame("Key Listener");
-          	Container contentPane = frame.getContentPane();
-
-
-          	 
-             JTextField textField = new JTextField();
-             textField.addKeyListener(rc);
-             contentPane.add(textField, BorderLayout.NORTH);
-             frame.pack();
-             frame.setVisible(true);	
-            	     	
-            
-
-                
-// keep on reading from/to the socket till we receive the "Ok" from SMTP,
-// once we received that then we want to break.
-               String responseLine;
-                while ((responseLine = is.readLine()) != null) {
-                    System.out.println("Server: " + responseLine);
-                    if (responseLine.indexOf("Ok") != -1) {
-                      break;
-                    }
-                }
-
-           // Close and clean :
-                os.close();
-                is.close();
-                remote.close();   
-            } catch (UnknownHostException e) {
-                System.err.println("Trying to connect to unknown host: " + e);
-            } catch (IOException e) {
-                System.err.println("IOException:  " + e);
-            }
-        }*/
