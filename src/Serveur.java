@@ -1,11 +1,11 @@
 import java.io.*;
 import java.net.*;
 
-//import com.pi4j.io.gpio.GpioController;
-//import com.pi4j.io.gpio.GpioFactory;
-//import com.pi4j.io.gpio.GpioPinDigitalOutput;
-//import com.pi4j.io.gpio.PinState;
-//import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.RaspiPin;
 
 public class Serveur {
 	
@@ -14,6 +14,9 @@ public class Serveur {
     private String line;
     private PrintStream out = null;
     private BufferedReader in = null;
+    private GpioPinDigitalOutput left = null;
+    private GpioPinDigitalOutput right = null;
+    
     
     // Config
     private int port = 4444;
@@ -37,6 +40,14 @@ public class Serveur {
     }
     
     
+    // Initialization of Leds
+    public void initGpio(){
+    	final GpioController gpio = GpioFactory.getInstance();
+    	left = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "PinLED", PinState.LOW);
+    	right = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "PinLED", PinState.LOW);
+    }
+    
+    
     // Receiving data
     public String receivingData(){
     	String data;
@@ -55,10 +66,10 @@ public class Serveur {
     // MotorManagment
     public void MotorManagment(String _Data){
     	switch (_Data) {
-		case "ledGauche" : System.out.println("Allume la led gauche");
+		case "ledGauche" : left.pulse(100, true);
 		break;
 		
-		case "ledDroite" : System.out.println("Allule la led droite");
+		case "ledDroite" : right.pulse(100, true);
 		break;
 		
 		default: System.out.println("Stop");
@@ -88,6 +99,7 @@ public class Serveur {
     	// Initialisation : 
     	Serveur serv = new Serveur();
     	serv.init();
+    	serv.initGpio();
 
     	// Temps de la simulation : #Gitan #AModifier
     	int i = 0;
@@ -106,6 +118,3 @@ public class Serveur {
 }
 
 
-//final GpioController gpio = GpioFactory.getInstance();
-//final GpioPinDigitalOutput left = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "PinLED", PinState.LOW);
-//final GpioPinDigitalOutput right = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "PinLED", PinState.LOW);

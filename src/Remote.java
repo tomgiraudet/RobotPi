@@ -82,19 +82,19 @@ public class Remote {
     	String test = "";
     	test = "ledDroite";
     	rem.sendInfo(test);
-    	Thread.sleep(500);
+    	Thread.sleep(2000);
     	
     	test = "ledDroite";
     	rem.sendInfo(test);
-    	Thread.sleep(500);
+    	Thread.sleep(2000);
     	
     	test = "ledGauche";
     	rem.sendInfo(test);
-    	Thread.sleep(500);
+    	Thread.sleep(2000);
     	
     	test = "azerty";
     	rem.sendInfo(test);
-    	Thread.sleep(500);
+    	Thread.sleep(2000);
     	
    	
     	// ending
