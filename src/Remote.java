@@ -6,18 +6,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-
-
 
 public class Remote extends JPanel{
 	
 	// attributes
-	private DataOutputStream os;
-	//private RemoteClavier rc = new RemoteClavier();
+	KeyListener listener;
 	private Socket remote = null;
-	private PrintWriter s_out = null;
+	protected PrintWriter s_out = null;
 	
 	// config
 	private int port = 4444;
@@ -26,7 +21,7 @@ public class Remote extends JPanel{
 	
 	// Constructor
 	public Remote(){
-		KeyListener listener = new RemoteClavierListener();
+		listener = new RemoteClavierListener();
 		addKeyListener(listener);
 		setFocusable(true);
 	}
@@ -92,15 +87,9 @@ public class Remote extends JPanel{
     	
     	
     	// sending message
-    	/*String test = "";
-    	test = "ledDroite";
-    	rem.sendInfo(test);
-    	Thread.sleep(2000);
     	
-    	test = "ledDroite";
-    	rem.sendInfo(test);
-    	Thread.sleep(2000);
     	
+    	String test;
     	test = "ledGauche";
     	rem.sendInfo(test);
     	Thread.sleep(2000);
@@ -108,7 +97,6 @@ public class Remote extends JPanel{
     	test = "azerty";
     	rem.sendInfo(test);
     	Thread.sleep(2000);
-    	*/
     	
    	
     	// ending
@@ -117,7 +105,7 @@ public class Remote extends JPanel{
     	
     }
     
-    public class RemoteClavierListener implements KeyListener {
+    public class RemoteClavierListener implements KeyListener{
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}

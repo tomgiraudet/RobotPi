@@ -105,7 +105,7 @@ public class Serveur {
     	int i = 0;
     	String data;
     	
-    	while(i < 10){
+    	while(i<1000){
     		data = serv.receivingData();
     		serv.MotorManagment(data);
     		i++;
