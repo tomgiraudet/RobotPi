@@ -16,7 +16,7 @@ public class RemoteClavier implements KeyListener {
 		System.out.print("Key pressed \n");
 		int direction = event.getKeyCode();
 		try {
-			rm.os.write(direction);
+			rm.getOs().write(direction);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
