@@ -66,13 +66,21 @@ public class Serveur {
     // MotorManagment
     public void MotorManagment(String _Data){
     	switch (_Data) {
-		case "ledGauche" : left.pulse(100, true);
+		case "left" :
+			left.toggle();
 		break;
 		
-		case "ledDroite" : right.pulse(100, true);
+		case "right" :
+			right.toggle();
 		break;
 		
-		default: System.out.println("Stop");
+		case "Stop" :
+			left.low();
+			right.low();
+		break;
+		
+		default:
+			//System.out.println("Stop");
 		break;
 	}
     }
@@ -94,7 +102,7 @@ public class Serveur {
     
  	
  	// Main method
-    public static void main(String args[]) {
+    public static void main(String args[]) throws InterruptedException {
 
     	// Initialisation : 
     	Serveur serv = new Serveur();
@@ -105,8 +113,9 @@ public class Serveur {
     	int i = 0;
     	String data;
     	
-    	while(i<1000){
+    	while(i<10000){
     		data = serv.receivingData();
+    		System.out.println("Touche lue : "+data);
     		serv.MotorManagment(data);
     		i++;
     	}
